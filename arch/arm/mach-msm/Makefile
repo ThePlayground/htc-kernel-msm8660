@@ -171,6 +171,10 @@ obj-$(CONFIG_ARCH_MSM8X60) += clock-rpm.o
 obj-$(CONFIG_ARCH_MSM8X60) += saw-regulator.o
 obj-$(CONFIG_ARCH_MSM8X60) += footswitch-8x60.o
 
+ifdef FORCE_FAST_CHARGE
+	obj-$(CONFIG_FORCE_FAST_CHARGE)         += fastchg.o
+endif
+
 ifdef CONFIG_MSM_RPM_REGULATOR
 obj-y += rpm-regulator.o
 obj-$(CONFIG_ARCH_MSM8X60) += rpm-regulator-8660.o

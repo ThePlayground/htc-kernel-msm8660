@@ -2026,6 +2026,13 @@ config MSM_ULTRASOUND
 	help
 	  Enable support for qdsp6/ultrasound.
 
+config FORCE_FAST_CHARGE
+        bool "Force AC charge mode at will"
+        default y
+        help
+          A simple sysfs interface to force adapters that
+          are detected as USB to charge as AC.
+
 config MSM_RPC_VIBRATOR
 	bool "RPC based MSM Vibrator Support"
 	depends on MSM_ONCRPCROUTER
@@ -2109,7 +2116,6 @@ config MSM_L1_ERR_PANIC
 	  general system instability is suspected.
 
 	  For production builds, you should probably say 'N' here.
-
 
 config MSM_L2_ERP_PORT_PANIC
 	bool "Panic on L2 master port errors"
