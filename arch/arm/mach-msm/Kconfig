@@ -2042,6 +2042,13 @@ config PM8XXX_RPC_VIBRATOR
 	  is connected on the PM8XXX PMIC. Say Y if you want to enable
 	  this feature.
 
+config FORCE_FAST_CHARGE
+        bool "Force AC charge mode at will"
+        default y
+        help
+          A simple sysfs interface to force adapters that
+          are detected as USB to charge as AC.
+
 config MSM_SPM_V1
 	bool "Driver support for SPM Version 1"
 	help

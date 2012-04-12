@@ -324,6 +324,10 @@ obj-$(CONFIG_MSM_FAKE_BATTERY) += fish_battery.o
 obj-$(CONFIG_MSM_RPC_VIBRATOR) += msm_vibrator.o
 obj-$(CONFIG_MSM_NATIVE_RESTART) += restart.o
 
+ifdef FORCE_FAST_CHARGE
+	obj-$(CONFIG_FORCE_FAST_CHARGE)         += fastchg.o
+endif
+
 obj-$(CONFIG_MSM_PROC_COMM_REGULATOR) += proccomm-regulator.o
 ifdef CONFIG_MSM_PROC_COMM_REGULATOR
 obj-$(CONFIG_MACH_MSM7X27_SURF) += board-msm7627-regulator.o
