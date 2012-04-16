@@ -82,3 +82,11 @@ arch/arm/mach-msm/smd_rpc_sym.c
 *.orig
 *~
 \#*#
+
+mkboot.aosp/boot.img
+
+mkboot.aosp/zImage
+
+zip.aosp/TwistedZero_teamevo-hijack_ICS.zip
+
+zip.aosp/boot.img
