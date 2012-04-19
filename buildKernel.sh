@@ -31,6 +31,8 @@ make -j$CPU_JOB_NUM ARCH=arm CROSS_COMPILE=$TOOLCHAIN_PREFIX
 
 find . -name "*.ko" | xargs ${TOOLCHAIN_PREFIX}strip --strip-unneeded
 
+cp .config arch/arm/configs/cm9_shooter_defconfig
+
 if [ -e arch/arm/boot/zImage ]; then
 
 if [ "$1" == "1" ]; then
