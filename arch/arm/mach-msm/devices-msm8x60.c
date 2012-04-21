@@ -1884,6 +1884,7 @@ struct platform_device msm_device_otg = {
 	.resource	= resources_otg,
 };
 
+#ifdef CONFIG_HTC_DEVICE
 static struct resource resources_hsusb[] = {
 	{
 		.start	= 0x12500000,
@@ -1896,12 +1897,16 @@ static struct resource resources_hsusb[] = {
 		.flags	= IORESOURCE_IRQ,
 	},
 };
+#endif
+
 static u64 dma_mask = 0xffffffffULL;
 struct platform_device msm_device_gadget_peripheral = {
 	.name		= "msm_hsusb",
 	.id		= -1,
-	.num_resources	= ARRAY_SIZE(resources_hsusb),
-	.resource	= resources_hsusb,
+#ifdef CONFIG_HTC_DEVICE
+	.num_resources  = ARRAY_SIZE(resources_hsusb),
+	.resource  = resources_hsusb,
+#endif
 	.dev		= {
 		.dma_mask 		= &dma_mask,
 		.coherent_dma_mask	= 0xffffffffULL,

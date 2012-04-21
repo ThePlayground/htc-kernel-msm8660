@@ -1811,7 +1811,7 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
 				 * compliant to revision 2.0 or subsequent
 				 * versions.
 				 */
-#if 0
+#ifndef CONFIG_HTC_DEVICE
 				/* TODO: how did this code ever work? */
 				if (le16_to_cpu(desc->bcdOTG) >= 0x0200)
 					goto out;

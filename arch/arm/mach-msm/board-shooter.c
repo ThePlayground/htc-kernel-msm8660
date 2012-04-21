@@ -483,13 +483,13 @@ static void msm_hsusb_vbus_power(bool on)
 
 static int phy_init_seq[] = { 0x06, 0x36, 0x0C, 0x31, 0x31, 0x32, 0x1, 0x0E, 0x1, 0x11, -1 };
 static struct msm_otg_platform_data msm_otg_pdata = {
-	.phy_init_seq	= phy_init_seq,
+	.phy_init_seq 	= phy_init_seq,
 	.vbus_power	= msm_hsusb_vbus_power,
 	.power_budget	= 750,
 	.mode		= USB_PERIPHERAL,
 	.otg_control	= OTG_PMIC_CONTROL,
 	.phy_type	= CI_45NM_INTEGRATED_PHY,
-	/* TODO: find shooter regulators */
+	 /* TODO: find shooter regulators */
 	.ldo_3v3_name	= "8058_l6",
 	.ldo_1v8_name	= "8058_l7",
 	.vddcx_name	= "8058_s1",

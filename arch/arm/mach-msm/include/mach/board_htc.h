@@ -103,6 +103,7 @@ int __init msm_add_serial_devices(unsigned uart);
 #define MFG_BUILD	1
 #define ENG_BUILD	2
 
+#if defined(CONFIG_USB_MSM_OTG)
 void msm_otg_set_vbus_state(int online);
 
 enum usb_connect_type {
@@ -117,8 +118,6 @@ enum usb_connect_type {
 	CONNECT_TYPE_UNSUPPORTED,
 };
 
-#if defined(CONFIG_USB_FUNCTION_MSM_HSUSB)
-/* START: add USB connected notify function */
 struct t_usb_status_notifier{
 	struct list_head notifier_link;
 	const char *name;
@@ -127,7 +126,6 @@ struct t_usb_status_notifier{
 
 int usb_register_notifier(struct t_usb_status_notifier *);
 static LIST_HEAD(g_lh_usb_notifier_list);
-/* END: add USB connected notify function */
 #endif
 
 int __init board_mfg_mode(void);
