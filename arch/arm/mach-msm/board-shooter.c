@@ -494,12 +494,6 @@ static struct msm_otg_platform_data msm_otg_pdata = {
 	.vddcx_name	= "8058_s1",
 };
 
-#ifdef CONFIG_USB_GADGET_MSM_72K
-static struct msm_hsusb_gadget_platform_data msm_gadget_pdata = {
-	.is_phy_status_timer_on = 1,
-};
-#endif
-
 #ifdef CONFIG_USB_G_ANDROID
 
 #define PID_MAGIC_ID		0x71432909
@@ -2577,14 +2571,8 @@ static struct platform_device *devices[] __initdata = {
 #ifdef CONFIG_I2C_SSBI
 	&msm_device_ssbi3,
 #endif
-#if defined(CONFIG_USB_GADGET_MSM_72K) || defined(CONFIG_USB_EHCI_HCD)
+#if defined(CONFIG_USB_EHCI_HCD)
 	&msm_device_otg,
-#endif
-#ifdef CONFIG_USB_GADGET_MSM_72K
-	&msm_device_gadget_peripheral,
-#endif
-#ifdef CONFIG_USB_G_ANDROID
-	&android_usb_device,
 #endif
 #ifdef CONFIG_ANDROID_PMEM
 #ifndef CONFIG_MSM_MULTIMEDIA_USE_ION
@@ -3834,11 +3822,8 @@ static void __init msm8x60_init_buses(void)
 #ifdef CONFIG_I2C_SSBI
 	msm_device_ssbi3.dev.platform_data = &msm_ssbi3_pdata;
 #endif
-#if defined(CONFIG_USB_GADGET_MSM_72K) || defined(CONFIG_USB_EHCI_HCD)
+#if defined(CONFIG_USB_EHCI_HCD)
 	msm_device_otg.dev.platform_data = &msm_otg_pdata;
-#endif
-#ifdef CONFIG_USB_GADGET_MSM_72K
-	msm_device_gadget_peripheral.dev.platform_data = &msm_gadget_pdata;
 #endif
 #ifdef CONFIG_BT
 	bt_export_bd_address();
@@ -3944,8 +3929,12 @@ static void __init msm8x60_init(void)
 
 	platform_add_devices(devices, ARRAY_SIZE(devices));
 
-#ifdef CONFIG_USB_EHCI_MSM_72K
-	msm_add_host(0, &msm_usb_host_pdata);
+#ifdef CONFIG_USB_GADGET
+	msm_device_gadget_peripheral.dev.parent = &msm_device_otg.dev;
+	platform_device_register(&msm_device_gadget_peripheral);
+#endif
+#ifdef CONFIG_USB_G_ANDROID
+	platform_device_register(&android_usb_device);
 #endif
 
 	platform_add_devices(asoc_devices, ARRAY_SIZE(asoc_devices));
