@@ -24,6 +24,7 @@
 #include <linux/mpu.h>
 #include <linux/msm_adc.h>
 #include <linux/msm-charger.h>
+#include <linux/msm_tsens.h>
 #include <linux/m_adcproc.h>
 #include <linux/proc_fs.h>
 #include <linux/tps65200.h>
@@ -129,10 +130,14 @@ static struct platform_device ram_console_device = {
 	.resource	= ram_console_resources,
 };
 
-static struct platform_device msm_tsens_device = {
-	.name   = "tsens-tm",
-	.id = -1,
+#ifdef CONFIG_THERMAL_TSENS8960
+static struct tsens_platform_data msm_tsens_pdata = {
+	.tsens_factor		= 1000,
+	.hw_type		= MSM_8660,
+	.tsens_num_sensor	= 5,
+	.slope 			= { 702, 702, 702, 702, 702 },
 };
+#endif
 
 #ifdef CONFIG_MSM_CAMERA
 static struct i2c_board_info msm_camera_boardinfo[] __initdata = {
@@ -2846,7 +2851,6 @@ static struct platform_device *devices[] __initdata = {
 #ifdef CONFIG_HW_RANDOM_MSM
 	&msm_device_rng,
 #endif
-	&msm_tsens_device,
 	&msm_rpm_device,
 	&cable_detect_device,
 #ifdef CONFIG_ION_MSM
@@ -4185,6 +4189,10 @@ static void __init msm8x60_init(void)
 
 #ifdef CONFIG_SENSORS_MSM_ADC
 	msm_adc_pdata.target_hw = MSM_8x60;
+#endif
+
+#ifdef CONFIG_THERMAL_TSENS8960
+	msm_tsens_early_init(&msm_tsens_pdata);
 #endif
 
 	shooter_init_keypad();
