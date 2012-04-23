@@ -20,10 +20,7 @@ zipfile=$HANDLE"_teamevo-hijack_ICS.zip"
 CPU_JOB_NUM=16
 TOOLCHAIN_PREFIX=$TOOLCHAINDIR/arm-eabi-
 
-echo "Config Name? "
-ls config
-read configfile
-cp -R config/$configfile .config
+cp -R config/$2_config .config
 
 make clean -j$CPU_JOB_NUM
 
