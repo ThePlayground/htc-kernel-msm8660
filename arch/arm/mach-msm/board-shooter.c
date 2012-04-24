@@ -24,7 +24,9 @@
 #include <linux/mpu.h>
 #include <linux/msm_adc.h>
 #include <linux/msm-charger.h>
+#ifdef CONFIG_THERMAL_TSENS8960
 #include <linux/msm_tsens.h>
+#endif
 #include <linux/m_adcproc.h>
 #include <linux/proc_fs.h>
 #include <linux/tps65200.h>
@@ -129,6 +131,13 @@ static struct platform_device ram_console_device = {
 	.num_resources	= ARRAY_SIZE(ram_console_resources),
 	.resource	= ram_console_resources,
 };
+
+#ifdef CONFIG_THERMAL_TSENS
+static struct platform_device msm_tsens_device = {
+	.name   = "tsens-tm",
+	.id = -1,
+};
+#endif
 
 #ifdef CONFIG_THERMAL_TSENS8960
 static struct tsens_platform_data msm_tsens_pdata = {
@@ -2850,6 +2859,9 @@ static struct platform_device *devices[] __initdata = {
 	&rpm_regulator_device,
 #ifdef CONFIG_HW_RANDOM_MSM
 	&msm_device_rng,
+#endif
+#ifdef CONFIG_THERMAL_TSENS
+    &msm_tsens_device,
 #endif
 	&msm_rpm_device,
 	&cable_detect_device,

@@ -21,17 +21,25 @@
 #include <linux/cpu.h>
 
 #define DEF_TEMP_SENSOR      0
+#ifdef CONFIG_THERMAL_TSENS8960
 #define DEF_THERMAL_CHECK_MS 1250
 #define DEF_ALLOWED_MAX_HIGH 70
 #define DEF_ALLOWED_MAX_FREQ 810000
+#else
+#define DEF_THERMAL_CHECK_MS 1000
+#define DEF_ALLOWED_MAX_HIGH 60
+#define DEF_ALLOWED_MAX_FREQ 918000
+#endif
 
 static int enabled;
 static int allowed_max_high = DEF_ALLOWED_MAX_HIGH;
 static int allowed_max_low = (DEF_ALLOWED_MAX_HIGH - 10);
 static int allowed_max_freq = DEF_ALLOWED_MAX_FREQ;
 static int check_interval_ms = DEF_THERMAL_CHECK_MS;
+#ifdef CONFIG_THERMAL_TSENS8960
 static int thermal_throttled = 0;
 static int pre_throttled_max = 0;
+#endif
 
 module_param(allowed_max_high, int, 0);
 module_param(allowed_max_freq, int, 0);
@@ -87,29 +95,43 @@ static void check_temp(struct work_struct *work)
 		if (temp >= allowed_max_high) {
 			if (cpu_policy->max > allowed_max_freq) {
 				update_policy = 1;
+#ifdef CONFIG_THERMAL_TSENS8960
 				/* save pre-throttled max freq value */
 				pre_throttled_max = cpu_policy->max;
+#endif
 				max_freq = allowed_max_freq;
+#ifdef CONFIG_THERMAL_TSENS8960
 				thermal_throttled = 1;
 				pr_warn("Thermal Throttled! Set max freq to: \
 					 %u\n", max_freq);
+#endif
 			} else {
 				pr_debug("msm_thermal: policy max for cpu %d "
 					 "already < allowed_max_freq\n", cpu);
 			}
+#ifdef CONFIG_THERMAL_TSENS8960
 		} else if (temp < allowed_max_low && thermal_throttled) {
+#else
+        } else if (temp < allowed_max_low) {
+#endif
 			if (cpu_policy->max < cpu_policy->cpuinfo.max_freq) {
+#ifdef CONFIG_THERMAL_TSENS8960
 				if (pre_throttled_max != 0)
 					max_freq = pre_throttled_max;
 				else
 					max_freq = cpu_policy->
 						cpuinfo.max_freq;
+#else
+                max_freq = cpu_policy->cpuinfo.max_freq;
+#endif
 				update_policy = 1;
+#ifdef CONFIG_THERMAL_TSENS8960
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 0;
 				pr_warn("Thermal Throttling Ended! restore \
 					max freq to: %u\n", max_freq);
+#endif
 			} else {
 				pr_debug("msm_thermal: policy max for cpu %d "
 					 "already at max allowed\n", cpu);
