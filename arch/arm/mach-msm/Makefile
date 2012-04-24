@@ -216,6 +216,9 @@ obj-$(CONFIG_MACH_MSM8X60_FLUID) += board-msm8x60.o
 obj-$(CONFIG_MACH_MSM8X60_DRAGON) += board-msm8x60.o
 obj-$(CONFIG_MACH_TYPE_MSM8X60_FUSION) += board-msm8x60.o mdm.o
 obj-$(CONFIG_MACH_MSM8X60_FUSN_FFA) += board-msm8x60.o mdm.o
+ifdef CONFIG_MSM_CAMERA
+obj-$(CONFIG_MACH_HTC8X60) += board-htc8x60-camera.o
+endif
 obj-$(CONFIG_MACH_SHOOTER) += board-shooter.o board-shooter-keypad.o
 obj-$(CONFIG_MACH_SHOOTER) += display/shooter-panel.o
 obj-$(CONFIG_MACH_SHOOTER) += board-shooter-audio.o htc_acoustic_8x60.o
