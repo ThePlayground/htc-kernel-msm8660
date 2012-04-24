@@ -2304,14 +2304,6 @@ CONFIG_MMC_MSM_SDC4_SUPPORT=y
 # CONFIG_MMC_DW is not set
 # CONFIG_MMC_VUB300 is not set
 # CONFIG_MMC_USHC is not set
-
-#
-# MMC/SD/SDIO Card Drivers
-#
-
-#
-# MMC/SD/SDIO Host Controller Drivers
-#
 # CONFIG_MEMSTICK is not set
 CONFIG_NEW_LEDS=y
 CONFIG_LEDS_CLASS=y
@@ -2337,6 +2329,7 @@ CONFIG_LEDS_GPIO_PLATFORM=y
 # CONFIG_LEDS_PMIC8058 is not set
 # CONFIG_LEDS_LT3593 is not set
 # CONFIG_LEDS_TRIGGERS is not set
+CONFIG_LEDS_PM8058=y
 
 #
 # LED Triggers

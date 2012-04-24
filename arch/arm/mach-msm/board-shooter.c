@@ -11,7 +11,8 @@
 #ifdef CONFIG_TOUCHSCREEN_CYPRESS_TMA
 #include <linux/cy8c_tma_ts.h>
 #include <linux/input/cy8c_ts.h>
-#else
+#endif
+#ifdef CONFIG_TOUCHSCREEN_ATMEL
 #include <linux/atmel_qt602240.h>
 #endif
 #include <linux/bootmem.h>
