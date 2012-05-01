@@ -220,12 +220,12 @@ ifdef CONFIG_MSM_CAMERA
 obj-$(CONFIG_MACH_HTC8X60) += board-htc8x60-camera.o
 endif
 obj-$(CONFIG_MACH_SHOOTER) += board-shooter.o board-shooter-keypad.o
-obj-$(CONFIG_MACH_SHOOTER) += display/shooter-panel.o
+obj-$(CONFIG_MACH_SHOOTER) += board-shooter-panel.o
 obj-$(CONFIG_MACH_SHOOTER) += board-shooter-audio.o htc_acoustic_8x60.o
 obj-$(CONFIG_MACH_SHOOTER) += htc_bdaddress.o board-shooter-rfkill.o
 obj-$(CONFIG_MACH_SHOOTER) += board-shooter-mmc.o board-shooter-wifi.o
 obj-$(CONFIG_MACH_SHOOTER_U) += board-shooter.o board-shooter-keypad.o
-obj-$(CONFIG_MACH_SHOOTER_U) += display/shooter-panel.o
+obj-$(CONFIG_MACH_SHOOTER_U) += board-shooter-panel.o
 obj-$(CONFIG_MACH_SHOOTER_U) += board-shooter-audio.o htc_acoustic_8x60.o
 obj-$(CONFIG_MACH_SHOOTER_U) += htc_bdaddress.o board-shooter-rfkill.o
 obj-$(CONFIG_MACH_SHOOTER_U) += board-shooter-mmc.o board-shooter-wifi.o
