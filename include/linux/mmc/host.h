@@ -321,9 +321,6 @@ struct mmc_host {
 	bool perf_enable;
 #endif
 	unsigned long		private[0] ____cacheline_aligned;
-
-	/* HTC extension */
-	struct delayed_work	remove;
 };
 
 extern struct mmc_host *mmc_alloc_host(int extra, struct device *);
