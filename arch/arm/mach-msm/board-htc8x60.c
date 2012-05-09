@@ -4773,8 +4773,8 @@ static void __init msm8x60_init(void)
 	msm_tsens_early_init(&msm_tsens_pdata);
 #endif
 
-	shooter_init_keypad();
-	shooter_wifi_init();
+	htc8x60_init_keypad();
+	htc8x60_wifi_init();
 	headset_device_register();
 
 	properties_kobj = kobject_create_and_add("board_properties", NULL);
