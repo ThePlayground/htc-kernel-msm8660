@@ -592,22 +592,51 @@ config MACH_MSM8X60_DRAGON
 	help
 	  Support for the Qualcomm MSM8x60 Dragon board.
 
-config MACH_SHOOTER
+config MACH_HTC8X60
 	depends on ARCH_MSM8X60
+	default n
+	bool "HTC 8X60 Common"
+	help
+	  Support for the common boards for HTC's on the 8x60 platform.
+
+config MACH_SHOOTER
+	depends on ARCH_MSM8X60 && MACH_HTC8X60
 	default n
 	bool "HTC Evo 3D CDMA"
 	help
-	  Support for the HTC Evo 3D CDMA board.
+	  Support for the HTC Evo 3D CDMA device.
 
 config MACH_SHOOTER_U
-	depends on ARCH_MSM8X60
+	depends on ARCH_MSM8X60 && MACH_HTC8X60
 	default n
 	bool "HTC Evo 3D GSM"
 	help
-	  Support for the HTC Evo 3D GSM board.
+	  Support for the HTC Evo 3D GSM device.
+
+config MACH_PYRAMID
+	depends on ARCH_MSM8X60 && MACH_HTC8X60
+	default n
+	bool "Pyramid"
+	help
+	  Support for the HTC Sensation device.
+
+config MACH_RUBY
+	depends on ARCH_MSM8X60 && MACH_HTC8X60
+	default n
+	bool "Ruby"
+	select SMP_PARALLEL_START
+	help
+	  Support for the HTC Amaze 4G device.
+
+config MACH_HOLIDAY
+	depends on ARCH_MSM8X60 && MACH_HTC8X60
+	default n
+	bool "Holiday"
+	help
+	  Support for the Holiday device.
 
 config HTC_DEVICE
-	default y if MACH_SHOOTER || MACH_SHOOTER_U
+	default y if MACH_SHOOTER || MACH_SHOOTER_U || MACH_PYRAMID  || MACH_RUBY || MACH_HOLIDAY
 	bool
 
 config MACH_MSM8960_SIM
@@ -1721,6 +1750,12 @@ config MSM_PIL_TZAPPS
 	  used to decrypt data and perform secure operations on the behalf of
 	  the kernel.
 
+config MSM_PIL_VIDC
+	tristate "Video Core Boot Support"
+	depends on MSM_PIL
+	help
+	  Support for authenticating the video core image.
+
 config MSM_SCM
 	bool "Secure Channel Manager (SCM) support"
 	default n
@@ -2117,9 +2152,23 @@ config MSM_L1_ERR_PANIC
 
 	  For production builds, you should probably say 'N' here.
 
+config MSM_L2_ERP_PRINT_ACCESS_ERRORS
+	bool "Report L2 master port slave/decode errors in kernel log"
+	depends on MSM_CACHE_ERP
+	help
+	  Master port errors can occur when a memory request is not properly
+	  handled by the destination slave. This can occur if the destination
+	  register does not exist or is inaccessible due to security
+	  restrictions or (in some cases) clock configuration. Enabling this
+	  option will cause a backtrace to be printed to the kernel log whenever
+	  such an error is encountered. Note that the error is reported as an
+	  interrupt rather than as an exception, meaning that the backtrace may
+	  have some skid. This option may help with debugging, though production
+	  builds should probably say 'N' here.
+
 config MSM_L2_ERP_PORT_PANIC
 	bool "Panic on L2 master port errors"
-	depends on MSM_CACHE_ERP
+	depends on MSM_CACHE_ERP && MSM_L2_ERP_PRINT_ACCESS_ERRORS
 	help
 	  Master port errors can occur when a memory request is not properly
 	  handled by the destination slave. Enable this option to catch drivers
@@ -2166,5 +2215,21 @@ config MSM_DCVS
 	  The DCVS manager allows idle driver to feed the idle information to the
 	  algorithm and the algorithm returns a frequency for the core which is
 	  passed to the frequency change driver.
+
+config MSM_CACHE_DUMP
+	bool "Cache dumping support"
+	help
+	  Add infrastructure to dump the L1 and L2 caches to an allocated buffer.
+	  This allows for analysis of the caches in case cache corruption is
+	  suspected.
+
+config MSM_CACHE_DUMP_ON_PANIC
+	bool "Dump caches on panic"
+	depends on MSM_CACHE_DUMP
+	help
+	  By default, the caches are flushed on panic. This means that trying to
+	  look at them in a RAM dump will give useless data. Select this if you
+	  want to dump the L1 and L2 caches on panic before any flush occurs.
+	  If unsure, say N
 
 endif

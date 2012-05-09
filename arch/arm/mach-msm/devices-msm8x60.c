@@ -978,6 +978,46 @@ struct platform_device msm_device_ssbi_pmic2 = {
 #endif
 
 #ifdef CONFIG_I2C_SSBI
+#ifdef CONFIG_MACH_RUBY
+/* 8058 PMIC SSBI */
+#define MSM_SSBI1_PMIC1C_PHYS	0x00500000
+static struct resource msm_ssbi1_resources[] = {
+	{
+		.name   = "ssbi_base",
+		.start	= MSM_SSBI1_PMIC1C_PHYS,
+		.end	= MSM_SSBI1_PMIC1C_PHYS + SZ_4K - 1,
+		.flags	= IORESOURCE_MEM,
+	},
+};
+
+struct platform_device msm_device_ssbi1 = {
+	.name		= "msm_ssbi",
+	.id			= 0,
+	.num_resources	= ARRAY_SIZE(msm_ssbi1_resources),
+	.resource	= msm_ssbi1_resources,
+};
+#endif
+
+#if defined(CONFIG_MACH_PYRAMID) || defined(CONFIG_MACH_RUBY) || defined(CONFIG_MACH_HOLIDAY)
+/* 8901 PMIC SSBI on /dev/i2c-7 */
+#define MSM_SSBI2_PMIC2B_PHYS	0x00C00000
+static struct resource msm_ssbi2_resources[] = {
+	{
+		.name   = "ssbi_base",
+		.start	= MSM_SSBI2_PMIC2B_PHYS,
+		.end	= MSM_SSBI2_PMIC2B_PHYS + SZ_4K - 1,
+		.flags	= IORESOURCE_MEM,
+	},
+};
+
+struct platform_device msm_device_ssbi2 = {
+	.name		= "i2c_ssbi",
+	.id		= MSM_SSBI2_I2C_BUS_ID,
+	.num_resources	= ARRAY_SIZE(msm_ssbi2_resources),
+	.resource	= msm_ssbi2_resources,
+};
+#endif
+
 /* CODEC SSBI on /dev/i2c-8 */
 #define MSM_SSBI3_PHYS  0x18700000
 static struct resource msm_ssbi3_resources[] = {
@@ -2407,6 +2447,7 @@ struct msm_vidc_platform_data vidc_platform_data = {
 #ifdef CONFIG_MSM_MULTIMEDIA_USE_ION
 	.memtype = ION_CP_MM_HEAP_ID,
 	.enable_ion = 1,
+	.cp_enabled = 0,
 #else
 	.memtype = MEMTYPE_SMI_KERNEL,
 	.enable_ion = 0,
