@@ -604,14 +604,14 @@ config MACH_SHOOTER
 	default n
 	bool "HTC Evo 3D CDMA"
 	help
-	  Support for the HTC Evo 3D CDMA board.
+	  Support for the HTC Evo 3D CDMA device.
 
 config MACH_SHOOTER_U
 	depends on ARCH_MSM8X60 && MACH_HTC8X60
 	default n
 	bool "HTC Evo 3D GSM"
 	help
-	  Support for the HTC Evo 3D GSM board.
+	  Support for the HTC Evo 3D GSM device.
 
 config MACH_PYRAMID
 	depends on ARCH_MSM8X60 && MACH_HTC8X60
@@ -620,28 +620,9 @@ config MACH_PYRAMID
 	help
 	  Support for the HTC Sensation device.
 
-config MACH_RUBY
-	depends on ARCH_MSM8X60 && MACH_HTC8X60
-	default n
-	bool "Ruby"
-	select SMP_PARALLEL_START
-	help
-	  Support for the HTC Amaze 4G device.
-
-config MACH_HOLIDAY
-	depends on ARCH_MSM8X60 && MACH_HTC8X60
-	default n
-	bool "Holiday"
-	help
-	  Support for the Holiday device.
-
 config HTC_DEVICE
-	default y if MACH_SHOOTER || MACH_SHOOTER_U
+	default y if MACH_SHOOTER || MACH_SHOOTER_U || MACH_PYRAMID
 	bool "Set various HTC options"
-
-config WIMAX_DEVICE
-	default y if MACH_SHOOTER
-	bool
 
 config HTC_MMC
 	depends on HTC_DEVICE
