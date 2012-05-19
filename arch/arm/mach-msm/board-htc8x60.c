@@ -3948,7 +3948,9 @@ static int msm_sdcc_setup_vreg(int dev_id, unsigned char enable)
 
 	curr = &sdcc_vreg_data[dev_id - 1];
 	curr_vdd_reg = curr->vdd_data;
+#ifndef CONFIG_HTC_MMC
 	curr_vccq_reg = curr->vccq_data;
+#endif
 	curr_vddp_reg = curr->vddp_data;
 
 	/* check if regulators are initialized or not? */
