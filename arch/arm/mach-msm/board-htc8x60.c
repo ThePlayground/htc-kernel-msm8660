@@ -3873,6 +3873,7 @@ static int msm_sdcc_vreg_enable(struct sdcc_reg *vreg)
 	int rc;
 
 	if (!vreg->enabled) {
+		mdelay(5);
 		rc = regulator_enable(vreg->reg);
 		if (rc) {
 			pr_err("%s: regulator_enable(%s) failed. rc=%d\n",
@@ -3947,9 +3948,7 @@ static int msm_sdcc_setup_vreg(int dev_id, unsigned char enable)
 
 	curr = &sdcc_vreg_data[dev_id - 1];
 	curr_vdd_reg = curr->vdd_data;
-#ifndef CONFIG_HTC_MMC
 	curr_vccq_reg = curr->vccq_data;
-#endif
 	curr_vddp_reg = curr->vddp_data;
 
 	/* check if regulators are initialized or not? */
@@ -4090,7 +4089,9 @@ static unsigned int msm8x60_sdcc_slot_status(struct device *dev)
 static unsigned int htc8x60_emmcslot_type = MMC_TYPE_MMC;
 static struct mmc_platform_data msm8x60_sdc1_data = {
 	.ocr_mask       = MMC_VDD_27_28 | MMC_VDD_28_29,
+#ifndef CONFIG_HTC_MMC
 	.translate_vdd  = msm_sdcc_setup_power,
+#endif
 #ifdef CONFIG_MMC_MSM_SDC1_8_BIT_SUPPORT
 	.mmc_bus_width  = MMC_CAP_8_BIT_DATA,
 #else
@@ -4101,7 +4102,6 @@ static struct mmc_platform_data msm8x60_sdc1_data = {
 	.msmsdcc_fmax	= 48000000,
 	.nonremovable	= 1,
 	.pclk_src_dfab	= 1,
-	.disable_runtime_pm = 1,
 	.slot_type	= &htc8x60_emmcslot_type,
 };
 #endif
@@ -4121,12 +4121,11 @@ static struct mmc_platform_data msm8x60_sdc3_data = {
 				       HTC8X60_SDC3_DET),
 	.irq_flags   = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
 #endif
-	.msmsdcc_fmin	= 400000,
+	.msmsdcc_fmin	= 144000,
 	.msmsdcc_fmid	= 24000000,
 	.msmsdcc_fmax	= 48000000,
 	.nonremovable	= 0,
 	.pclk_src_dfab  = 1,
-	.disable_runtime_pm = 1,
 	.slot_type	= &htc8x60_sdslot_type,
 };
 #endif
